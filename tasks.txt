@@ -1,0 +1,6 @@
+4/6/2015
+
+- Chokes on symbols w/o options
+- Make results selectable
+- Option month/year
+- Sort by symbol
