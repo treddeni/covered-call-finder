@@ -161,7 +161,8 @@ public class TK
              }
              catch(Exception e)
              {
-                
+                //swallowing these because TradeKing includes a bunch of non-standard options, that we don't care about
+            	 //TODO: should probably log these, so we can review them to make sure we aren't missing standard options
              }
           }
        }
