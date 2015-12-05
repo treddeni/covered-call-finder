@@ -136,22 +136,17 @@ public class OptionQuote
    
    public void print()
    {
-   	try {
-	      System.out.println("\nQuote: " + tickerSymbol);
-	      System.out.println(type.toUpperCase() + " " + strike + " " + expirationMonth + "/" + expirationYear);
-	      System.out.println("Last: " + last);
-	      System.out.println("Bid: " + bid);
-	      System.out.println("Ask: " + ask);
-	      System.out.println("Volume: " + volume);
-	      System.out.println("Underlying Last: " + underlyingQuote.getLast());
-	      System.out.println("Days to Expiration: " + daysToExpiration);
-	      System.out.println("Premium: " + getPremium());
-	      System.out.println("Breakeven Percentage: " + getBreakevenPercentage());
-	      System.out.println("Profit: " + getProfit());
-	      System.out.println("Profit APR: " + getProfitAPR());
-   	}
-   	catch(Exception e) { 
-   		e.printStackTrace();
-   	}
+      System.out.println("\nQuote: " + tickerSymbol);
+      System.out.println(type.toUpperCase() + " " + strike + " " + expirationMonth + "/" + expirationYear);
+      System.out.println("Last: " + last);
+      System.out.println("Bid: " + bid);
+      System.out.println("Ask: " + ask);
+      System.out.println("Volume: " + volume);
+      System.out.println("Underlying Last: " + underlyingQuote.getLast());
+      System.out.println("Days to Expiration: " + daysToExpiration);
+      System.out.println("Premium: " + getPremium());
+      System.out.println("Breakeven Percentage: " + getBreakevenPercentage());
+      System.out.println("Profit: " + getProfit());
+      System.out.println("Profit APR: " + getProfitAPR());
    }
 }
