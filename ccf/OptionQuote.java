@@ -23,7 +23,7 @@ public class OptionQuote
       this.underlyingQuote = underlyingQuote;
    }
    
-   public double getPremium() throws Exception
+   public Double getPremium()
    {
       if(type.toLowerCase().equals("put"))
       {
@@ -49,11 +49,11 @@ public class OptionQuote
       }
       else
       {
-         throw new Exception();
+         return null;
       }
    }
    
-   public double getBreakevenPercentage() throws Exception
+   public Double getBreakevenPercentage()
    {
       if(type.toLowerCase().equals("put"))
       {
@@ -65,11 +65,11 @@ public class OptionQuote
       }
       else
       {
-         throw new Exception();
+         return null;
       }
    }
    
-   public double getProtection() throws Exception
+   public Double getProtection()
    {
       if(type.toLowerCase().equals("put"))
       {
@@ -81,16 +81,16 @@ public class OptionQuote
       }
       else
       {
-         throw new Exception();
+         return null;
       }
    }
    
-   public double getProfit() throws Exception
+   public Double getProfit()
    {
       return getPremium() / underlyingQuote.getLast();
    }
    
-   public double getProfitAPR() throws Exception
+   public Double getProfitAPR()
    {
       return Math.pow(1.0 + getPremium() / underlyingQuote.getLast(), 365.0 / daysToExpiration) - 1.0;
    }
@@ -134,19 +134,24 @@ public class OptionQuote
    public double getUnderlyingLast() { return underlyingQuote.getLast(); }
    public void setUnderlyingLast(double underlyingLast) { this.underlyingLast = underlyingLast; }
    
-   public void print() throws Exception
+   public void print()
    {
-      System.out.println("\nQuote: " + tickerSymbol);
-      System.out.println(type.toUpperCase() + " " + strike + " " + expirationMonth + "/" + expirationYear);
-      System.out.println("Last: " + last);
-      System.out.println("Bid: " + bid);
-      System.out.println("Ask: " + ask);
-      System.out.println("Volume: " + volume);
-      System.out.println("Underlying Last: " + underlyingQuote.getLast());
-      System.out.println("Days to Expiration: " + daysToExpiration);
-      System.out.println("Premium: " + getPremium());
-      System.out.println("Breakeven Percentage: " + getBreakevenPercentage());
-      System.out.println("Profit: " + getProfit());
-      System.out.println("Profit APR: " + getProfitAPR());
+   	try {
+	      System.out.println("\nQuote: " + tickerSymbol);
+	      System.out.println(type.toUpperCase() + " " + strike + " " + expirationMonth + "/" + expirationYear);
+	      System.out.println("Last: " + last);
+	      System.out.println("Bid: " + bid);
+	      System.out.println("Ask: " + ask);
+	      System.out.println("Volume: " + volume);
+	      System.out.println("Underlying Last: " + underlyingQuote.getLast());
+	      System.out.println("Days to Expiration: " + daysToExpiration);
+	      System.out.println("Premium: " + getPremium());
+	      System.out.println("Breakeven Percentage: " + getBreakevenPercentage());
+	      System.out.println("Profit: " + getProfit());
+	      System.out.println("Profit APR: " + getProfitAPR());
+   	}
+   	catch(Exception e) { 
+   		e.printStackTrace();
+   	}
    }
 }

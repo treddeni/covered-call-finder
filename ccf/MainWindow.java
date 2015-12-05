@@ -1,19 +1,15 @@
 package ccf;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -55,7 +51,7 @@ public class MainWindow
       }
    }
    
-   protected void drawResultsTable(ArrayList<OptionQuote> trades)
+   protected void drawResultsTable(List<OptionQuote> trades)
    {
       try
       {
@@ -156,7 +152,12 @@ public class MainWindow
             {
                tableData = new TableData();
                String[] symbols = symbolsTB.getText().split("\r\n");
-               tableData.setTrades(TK.findTrades(symbols, Double.parseDouble(maxDistanceTB.getText()), Integer.parseInt(minDaysTB.getText()), Integer.parseInt(maxDaysTB.getText()), Double.parseDouble(minProfitTB.getText()), Double.parseDouble(minProtectionTB.getText())));
+               tableData.setTrades(TK.findTrades(symbols, 
+									               		Double.parseDouble(maxDistanceTB.getText()), 
+									               		Integer.parseInt(minDaysTB.getText()), 
+									               		Integer.parseInt(maxDaysTB.getText()), 
+									               		Double.parseDouble(minProfitTB.getText()), 
+									               		Double.parseDouble(minProtectionTB.getText())));
                drawResultsTable(tableData.getTrades());
             }
             catch(Exception e)

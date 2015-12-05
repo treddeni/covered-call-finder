@@ -2,13 +2,14 @@ package ccf;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
@@ -29,11 +30,11 @@ public class TK
    private static final double MAX_DAYS_REMAINING = 60;
    private static final double MIN_PROTECTION = 0.05;
    
-   public static ArrayList<OptionQuote> findTrades(String[] tickers, double maxDistance, int minDays, int maxDays, double minProfit, double minProtection) throws Exception
+   public static List<OptionQuote> findTrades(String[] tickers, double maxDistance, int minDays, int maxDays, double minProfit, double minProtection) throws Exception
    {      
       SecurityQuote underlyingQuote;
-      ArrayList<SecurityQuote> underlyingQuotes = new ArrayList<SecurityQuote>();
-      ArrayList<OptionQuote> quotes = new ArrayList<OptionQuote>();
+      List<SecurityQuote> underlyingQuotes = new ArrayList<SecurityQuote>();
+      List<OptionQuote> quotes = new ArrayList<OptionQuote>();
       
       for(int i = 0; i < tickers.length; i++)
       {
@@ -44,24 +45,14 @@ public class TK
          quotes.addAll(getOptionQuotes(underlyingQuote, "call"));
       }
       
-      ArrayList<OptionQuote> filtered = new ArrayList<OptionQuote>();
+      List<OptionQuote> filtered = quotes.stream().filter(option -> option.getDistance() < maxDistance)
+      		.filter(option -> option.getDaysToExpiration() >= minDays)
+      		.filter(option -> option.getDaysToExpiration() <= maxDays)
+      		.filter(option -> option.getProfitAPR() > minProfit)
+      		.filter(option -> option.getProtection() > minProtection)
+      		.collect(Collectors.toList());
       
-      for(OptionQuote option : quotes)
-      {
-         if(      option.getDistance() < maxDistance 
-               && option.getDaysToExpiration() >= minDays && option.getDaysToExpiration() <= maxDays
-               && option.getProfitAPR() > minProfit
-               && option.getProtection() > minProtection
-           )
-         {
-            filtered.add(option);
-         }
-      }
-      
-      for(OptionQuote option : filtered)
-      {
-         option.print();
-      }
+      filtered.forEach(option -> option.print());
       
       return filtered;
    }
@@ -112,14 +103,13 @@ public class TK
 
       OAuthRequest request = new OAuthRequest(Verb.GET, url);
       service.signRequest(accessToken, request);
-      Response response = request.send();
       
-      return response.getBody();
+      return request.send().getBody();
    }
    
-   public static ArrayList<OptionQuote> getOptionQuotes(SecurityQuote underlyingQuote, String type) throws Exception
+   public static List<OptionQuote> getOptionQuotes(SecurityQuote underlyingQuote, String type) throws Exception
    {
-      ArrayList<OptionQuote> quotes = new ArrayList<OptionQuote>();
+      List<OptionQuote> quotes = new ArrayList<OptionQuote>();
       OptionQuote quote;
        
       String query = "https://api.tradeking.com/v1/market/options/search.xml?symbol=" + underlyingQuote.getTickerSymbol() + "&query=put_call-eq%3A" + type;
